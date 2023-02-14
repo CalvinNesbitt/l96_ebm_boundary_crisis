@@ -1,8 +1,8 @@
-# science_project_template
+# L96-EBM Boundary Crisis
 
-Template for scientific investigations. 
+Investigation of the boundary crisis in the L96-EBM. We will look at the chaotic transients and critical exponents at the tipping points.
 
-## Template structure
+## Project structure
 ```bash
 ├── bin # For single runscripts
 ├── cfg # Configurations you use 
