@@ -29,7 +29,7 @@ if __name__ == "__main__":
     w_S_runs = np.repeat(np.arange(7.5, 8.6, 0.1), 10)
     all_S_runs = np.append(sb_S_runs, w_S_runs)
     S = all_S_runs[input_number]
-    integration_time = 10000.0
+    integration_time = 100000.0
     dt = 0.1
 
     if S < 10:
@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
     # Check if tipped/tipping time
     if tipped(ds):
-        tipping_time = check_exit_time(ds)
+        tipping_time = check_exit_time(ds, dissapearing_attractor)
     else:
         tipping_time = np.nan
 
