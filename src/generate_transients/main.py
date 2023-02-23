@@ -20,15 +20,15 @@ if __name__ == "__main__":
 
     # W Setups
     w_S_values = np.linspace(7.5, 7.7, 10)
-    w_setups = list(itertools.product(w_S_values, ["w"], np.arange(0, 100)))
+    w_setups = list(itertools.product(w_S_values, ["w"], np.arange(0, 500)))
 
     # SB Setups
     sb_S_values = np.linspace(15.3, 15.5, 10)
-    sb_setups = list(itertools.product(sb_S_values, ["sb"], np.arange(0, 100)))
+    sb_setups = list(itertools.product(sb_S_values, ["sb"], np.arange(0, 500)))
 
     all_setups = w_setups + sb_setups
     setup = all_setups[input_number]
-    S, disapearing_attractor, ic_number = 7.8, "w", 0  # setup
+    S, disapearing_attractor, ic_number = setup
 
     print(f"Running setup {input_number}/{len(all_setups)}. S={S:.3f}, ic {ic_number}.\n\n")
 
