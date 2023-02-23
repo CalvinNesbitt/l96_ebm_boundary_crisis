@@ -1,0 +1,52 @@
+"""
+Script for generating transient lifetime data.
+"""
+from l96_ebm.deterministic.integrator import L96_EBM_Integrator, L96_EBM_TrajectoryObserver
+
+from ic import load_ic
+from exit_times import tipped, check_exit_time
+from logger import log_result
+
+import sys
+import itertools
+import numpy as np
+
+if __name__ == "__main__":
+
+    # Fixed Parameters
+    integration_time = 100
+    dt = 0.1
+    input_number = int(sys.argv[1]) - 1
+
+    # W Setups
+    w_S_values = np.linspace(7.5, 7.7, 10)
+    w_setups = list(itertools.product(w_S_values, ["w"], np.arange(0, 100)))
+
+    # SB Setups
+    sb_S_values = np.linspace(15.3, 15.5, 10)
+    sb_setups = list(itertools.product(sb_S_values, ["sb"], np.arange(0, 100)))
+
+    all_setups = w_setups + sb_setups
+    setup = all_setups[input_number]
+    S, disapearing_attractor, ic_number = 7.8, "w", 0  # setup
+
+    print(f"Running setup {input_number}/{len(all_setups)}. S={S:.3f}, ic {ic_number}.\n\n")
+
+    # Load IC
+    ic = load_ic(disapearing_attractor, ic_number)
+
+    # Run Integration
+    print(f"Starting integration with ic={ic[-1]:.3f}, S={S}.\n\n")
+    runner = L96_EBM_Integrator(x_ic=ic[:-1], T_ic=ic[-1:], S=S)
+    looker = L96_EBM_TrajectoryObserver(runner)
+    looker.make_observations(int(integration_time / dt), dt, timer=False)
+    ds = looker.observations
+
+    # Check if tipped/tipping time
+    if tipped(ds):
+        tipping_time = check_exit_time(ds, disapearing_attractor)
+    else:
+        tipping_time = np.nan
+
+    # Save transient lifetime
+    log_result(S, disapearing_attractor, tipping_time)
