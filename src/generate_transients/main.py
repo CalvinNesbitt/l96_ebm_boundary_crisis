@@ -14,7 +14,7 @@ import numpy as np
 if __name__ == "__main__":
 
     # Fixed Parameters
-    integration_time = 100
+    integration_time = 100000
     dt = 0.1
     input_number = int(sys.argv[1]) - 1
 
