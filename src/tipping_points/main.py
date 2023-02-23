@@ -1,5 +1,11 @@
 """
 Script for determining where the tipping points are.
+
+Our practical defintion of a tipping point:
+
+- if 10 randomly chosen ic survive for an integration length of 100 000 time units, the attractor is said to be an attractor
+- we will increase/decrase S by increments of 0.1
+- the smallest/largest S from these increments that survives will be said to be the tipping point
 """
 
 from l96_ebm.deterministic.integrator import L96_EBM_Integrator, L96_EBM_TrajectoryObserver
@@ -23,7 +29,7 @@ if __name__ == "__main__":
     w_S_runs = np.repeat(np.arange(7.5, 8.6, 0.1), 10)
     all_S_runs = np.append(sb_S_runs, w_S_runs)
     S = all_S_runs[input_number]
-    integration_time = 100.0
+    integration_time = 10000.0
     dt = 0.1
 
     if S < 10:
