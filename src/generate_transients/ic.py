@@ -40,11 +40,12 @@ if __name__ == "__main__":
 
     number_of_ic = 1000
     # Specify Tipping Points
-    S_sb_to_w = 15.2  # when the SB attractor disappears
-    S_w_to_sb = 7.8  # when the W attractor disappears
+    S_sb_to_w = 14.9  # just before the SB attractor disappears
+    # S_w_to_sb = 8.1  # just before the W attractor disappears
     sb_attractor = get_attractor(S_sb_to_w, "sb")
-    w_attractor = get_attractor(S_w_to_sb, "w")
+    # w_attractor = get_attractor(S_w_to_sb, "w")
     sb_ic = get_sample_ic_from_bounding_box(sb_attractor, number_of_ic)
-    w_ic = get_sample_ic_from_bounding_box(w_attractor, number_of_ic)
+    # w_ic = get_sample_ic_from_bounding_box(w_attractor, number_of_ic)
 
-    np.save(transient_ic_dir / "w_ic", w_ic)
+    # np.save(transient_ic_dir / "w_ic", w_ic)
+    np.save(transient_ic_dir / "sb_ic", sb_ic)
