@@ -7,4 +7,4 @@ module load anaconda3/personal
 source activate l96_ebm_det
 date
 cd "$PBS_O_WORKDIR"
-python src/tipping_points/main.py $PBS_ARRAY_INDEX
+python src/generate_transients/main.py $PBS_ARRAY_INDEX
