@@ -19,11 +19,11 @@ if __name__ == "__main__":
     input_number = int(sys.argv[1]) - 1
 
     # W Setups
-    w_S_values = np.linspace(7.5, 7.7, 10)
+    w_S_values = np.linspace(7.5, 7.8, 10)
     w_setups = list(itertools.product(w_S_values, ["w"], np.arange(0, 500)))
 
     # SB Setups
-    sb_S_values = np.linspace(15.3, 15.5, 10)
+    sb_S_values = np.linspace(15.0, 15.3, 10)
     sb_setups = list(itertools.product(sb_S_values, ["sb"], np.arange(0, 500)))
 
     all_setups = w_setups + sb_setups
