@@ -35,7 +35,8 @@ class TransientLifetimes:
         mean_ds = pd.DataFrame()
         mean_ds["distance_from_crit"] = ds.groupby("S").mean()["distance_from_crit"]
         mean_ds["mean_tipping_time"] = ds.groupby("S").mean()["tipping_time"]
-        mean_ds["error"] = ds.groupby("S").mean()["tipping_time"] / ds.groupby("S").count()["tipping_time"]
+        mean_ds["standard_error"] = ds.groupby("S").mean()["tipping_time"] / ds.groupby("S").count()["tipping_time"]
+        mean_ds["sample_size"] = ds.groupby("S").tipping_time.count()
         return mean_ds
 
     def critical_exponent_fit_plot(self, S_list=[], fax=None):
@@ -55,9 +56,13 @@ class TransientLifetimes:
         fig, ax = linear_regression_plot(log_distance_from_crit, log_mean_tipping_time, fax=fax, param_values=False)
         ax.set_xlabel("$\log |S - S_{c}|$")
         ax.set_ylabel("$\log\\tau$")
-        ax.set_title(
-            f"{self.dissapearing_attractor.upper()} Critical Exponent Fit, $\\gamma = {critical_exponent:.2f}$"
-        )
+
+        if self.dissapearing_attractor == "w":
+            title_string = " $S_{W \\to SB}$" + f" Critical Exponent Fit, $\\gamma = {critical_exponent:.2f}$"
+        else:
+            title_string = " $S_{SB \\to W}$" + f" Critical Exponent Fit, $\\gamma = {critical_exponent:.2f}$"
+
+        ax.set_title(title_string)
         ax.grid()
         return fig, ax
 
