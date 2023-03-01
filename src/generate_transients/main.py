@@ -8,26 +8,20 @@ from exit_times import tipped, check_exit_time
 from logger import log_result
 
 import sys
-import itertools
+import json
 import numpy as np
+from pathlib import Path
 
 if __name__ == "__main__":
 
-    # Fixed Parameters
-    integration_time = 100000
-    dt = 0.1
+    # Load Run
     input_number = int(sys.argv[1]) - 1
-
-    # W Setups
-    w_S_values = np.linspace(7.5, 7.8, 10)
-    w_setups = list(itertools.product(w_S_values, ["w"], np.arange(0, 500)))
-
-    # SB Setups
-    sb_S_values = np.linspace(15.0, 15.3, 10)
-    sb_setups = list(itertools.product(sb_S_values, ["sb"], np.arange(0, 500)))
-
-    all_setups = w_setups + sb_setups
+    config = json.load(Path("cfg/TEST_CONFIG.json").open())
+    dt = config["dt"]
+    integration_time = config["integration_time"]
+    all_setups = config["all_setups"]
     setup = all_setups[input_number]
+    file_name = config["results_file"]
     S, disapearing_attractor, ic_number = setup
 
     print(f"Running setup {input_number}/{len(all_setups)}. S={S:.3f}, ic {ic_number}.\n\n")
@@ -49,4 +43,4 @@ if __name__ == "__main__":
         tipping_time = np.nan
 
     # Save transient lifetime
-    log_result(S, disapearing_attractor, tipping_time)
+    log_result(file_name, S, disapearing_attractor, tipping_time)
