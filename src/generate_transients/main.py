@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     # Load Run
     input_number = int(sys.argv[1]) - 1
-    config = json.load(Path("cfg/longer_run.json").open())
+    config = json.load(Path("cfg/longer_sb_to_w_run.json").open())
     dt = config["dt"]
     integration_time = config["integration_time"]
     all_setups = config["all_setups"]
