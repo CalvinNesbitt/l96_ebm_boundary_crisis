@@ -10,7 +10,7 @@ if __name__ == "__main__":
 
     cfg_file = Path("cfg/big_transient_integration.json")
 
-    w_S_values = np.linspace(7.85, 7.96, 50)
+    w_S_values = np.linspace(7.8, 7.9, 50)
     w_setups = list(itertools.product(list(w_S_values), ["w"], range(0, 100)))
 
     # SB Setups
