@@ -14,7 +14,7 @@ if __name__ == "__main__":
     w_setups = list(itertools.product(list(w_S_values), ["w"], range(0, 100)))
 
     # SB Setups
-    sb_S_values = np.linspace(14.95, 14.84, 50)
+    sb_S_values = np.linspace(15.0, 14.9, 50)
     sb_setups = list(itertools.product(list(sb_S_values), ["sb"], range(0, 100)))
 
     all_setups = sb_setups + w_setups
