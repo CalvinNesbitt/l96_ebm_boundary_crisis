@@ -8,15 +8,15 @@ home_dir = Path.home()
 
 if Path.home() == Path("/Users/cfn18"):
     results_file = Path(
-        "/Users/cfn18/Documents/PhD-Work/Thesis-Computing/Determinisitc/l96_ebm_boundary_crisis/data/tipping_points.csv"
+        "/Users/cfn18/Documents/PhD-Work/Thesis-Computing/Determinisitc/l96_ebm_boundary_crisis/data/tipping_points_refined.csv"
     )
 else:
     results_file = Path(
-        "/rds/general/user/cfn18/home/Thesis-Computing/Determinisitc/l96_ebm_boundary_crisis/data/tipping_points.csv"
+        "/rds/general/user/cfn18/home/Thesis-Computing/Determinisitc/l96_ebm_boundary_crisis/data/tipping_points_refined.csv"
     )
 
 
-# Ensure we have a datafram to write into.
+# Ensure we have a dataframe to write into.
 
 
 def make_csv_file():

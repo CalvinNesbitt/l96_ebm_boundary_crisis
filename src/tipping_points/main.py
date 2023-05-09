@@ -25,8 +25,8 @@ if __name__ == "__main__":
         make_csv_file()
 
     # Experiment setup
-    sb_S_runs = np.repeat(np.arange(14.5, 15.6, 0.1), 10)  # do 10 ic for each S
-    w_S_runs = np.repeat(np.arange(7.5, 8.6, 0.1), 10)
+    sb_S_runs = np.repeat(np.arange(14.8, 15.0, 0.01), 10)  # do 10 ic for each S
+    w_S_runs = np.repeat(np.arange(7.81, 8.0, 0.01), 10)
     all_S_runs = np.append(sb_S_runs, w_S_runs)
     S = all_S_runs[input_number]
     integration_time = 100000.0
