@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     # Load Run
     input_number = int(sys.argv[1]) - 1
-    config = json.load(Path("cfg/big_transient_integration.json").open())
+    config = json.load(Path("cfg/transient_liftime_090523.json").open())
     dt = config["dt"]
     integration_time = config["integration_time"]
     all_setups = config["all_setups"]
