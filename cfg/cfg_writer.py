@@ -8,23 +8,21 @@ import json
 
 if __name__ == "__main__":
 
-    cfg_file = Path("cfg/longer_sb_to_w_run.json")
+    cfg_file = Path("cfg/big_transient_integration.json")
 
-    # # W Setups
-    # w_S_values = np.linspace(7.7, 7.8, 10)
-    # w_setups = list(itertools.product(list(w_S_values), ["w"], range(0, 500)))
+    w_S_values = np.linspace(7.85, 7.96, 50)
+    w_setups = list(itertools.product(list(w_S_values), ["w"], range(0, 100)))
 
     # SB Setups
-    sb_S_values = np.linspace(15.0, 15.2, 10)
-    sb_setups = list(itertools.product(list(sb_S_values), ["sb"], range(0, 500)))
+    sb_S_values = np.linspace(14.95, 14.84, 50)
+    sb_setups = list(itertools.product(list(sb_S_values), ["sb"], range(0, 100)))
 
-    # all_setups = w_setups + sb_setups
-    all_setups = sb_setups
+    all_setups = sb_setups + w_setups
 
     config = {
-        "integration_time": 1.0e6,
+        "integration_time": 1.0e7,
         "dt": 0.1,
         "all_setups": all_setups,
-        "results_file": "transient_lifetimes_sb_to_w.csv",
+        "results_file": "transient_lifetimes_big_simulation.csv",
     }
-    json.dump(config, cfg_file.open("w"))
+    json.dump(config, cfg_file.open(mode="w"))
