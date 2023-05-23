@@ -15,8 +15,9 @@ from pathlib import Path
 if __name__ == "__main__":
     # Load Run
     input_number = int(sys.argv[1]) - 1
-    config = json.load(Path("cfg/transient_liftime_090523-TEST.json").open())
-    print(config)
+    print("Opening Config\n")
+    config = json.load(Path("cfg/transient_lifetime_230523.json").open())
+    print("Opened Config")
     dt = config["dt"]
     integration_time = config["integration_time"]
     all_setups = config["all_setups"]
