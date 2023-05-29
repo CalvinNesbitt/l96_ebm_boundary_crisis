@@ -37,7 +37,7 @@ if __name__ == "__main__":
     number_of_observations = int(integration_time / dt)
     number_of_blocks = int(number_of_observations / block_length)
 
-    for i in number_of_blocks:
+    for i in range(number_of_blocks):
         runner = L96_EBM_Integrator(x_ic=ic[:-1], T_ic=ic[-1:], S=S)
         looker = L96_EBM_TrajectoryObserver(runner)
         looker.make_observations(block_length, dt, timer=False)
