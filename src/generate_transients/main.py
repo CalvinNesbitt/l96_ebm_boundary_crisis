@@ -32,16 +32,22 @@ if __name__ == "__main__":
 
     # Run Integration
     print(f"Starting integration with ic={ic[-1]:.3f}, S={S}.\n\n")
-    runner = L96_EBM_Integrator(x_ic=ic[:-1], T_ic=ic[-1:], S=S)
-    looker = L96_EBM_TrajectoryObserver(runner)
-    looker.make_observations(int(integration_time / dt), dt, timer=False)
-    ds = looker.observations
 
-    # Check if tipped/tipping time
-    if tipped(ds):
-        tipping_time = check_exit_time(ds, disapearing_attractor)
-    else:
-        tipping_time = np.nan
+    block_length = 10000
+    number_of_observations = int(integration_time / dt)
+    number_of_blocks = int(number_of_observations / block_length)
 
-    # Save transient lifetime
+    for i in number_of_blocks:
+        runner = L96_EBM_Integrator(x_ic=ic[:-1], T_ic=ic[-1:], S=S)
+        looker = L96_EBM_TrajectoryObserver(runner)
+        looker.make_observations(block_length, dt, timer=False)
+        ds = looker.observations
+
+        # Check if tipped/tipping time
+        if tipped(ds):
+            tipping_time = check_exit_time(ds, disapearing_attractor)
+            log_result(file_name, S, disapearing_attractor, tipping_time)
+
+    # Log nan if we reach integration end
+    tipping_time = np.nan
     log_result(file_name, S, disapearing_attractor, tipping_time)
