@@ -16,7 +16,7 @@ if __name__ == "__main__":
     # Load Run
     input_number = int(sys.argv[1]) - 1
     print("Opening Config\n")
-    config = json.load(Path("cfg/transient_lifetime_230523.json").open())
+    config = json.load(Path("cfg/transient_lifetime_290523.json").open())
     print("Opened Config")
     dt = config["dt"]
     integration_time = config["integration_time"]
