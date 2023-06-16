@@ -10,11 +10,11 @@ if __name__ == "__main__":
     cfg_file = Path("cfg/transient_lifetime_160623.json")
 
     # SB Setups
-    sb_S_values = np.linspace(15.1, 15.5, 50)
+    sb_S_values = np.linspace(15.5, 15.1, 50)
     sb_setups = list(itertools.product(list(sb_S_values), ["sb"], range(0, 100)))
 
     # W Setups
-    w_S_values = np.linspace(7.64, 7.84, 50)
+    w_S_values = np.linspace(7.84, 7.64, 50)
     w_setups = list(itertools.product(list(w_S_values), ["w"], range(0, 100)))
 
     all_setups = sb_setups + w_setups
