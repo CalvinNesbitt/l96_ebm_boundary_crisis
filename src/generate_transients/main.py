@@ -38,7 +38,7 @@ if __name__ == "__main__":
     # Run Integration
     print(f"Starting integration with ic={ic[-1]:.3f}, S={S}.\n\n")
 
-    block_length = 10000
+    block_length = 1000
     number_of_observations = int(integration_time / dt)
     number_of_blocks = int(number_of_observations / block_length)
 
