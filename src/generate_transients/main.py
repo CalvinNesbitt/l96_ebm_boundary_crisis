@@ -1,7 +1,10 @@
 """
 Script for generating transient lifetime data.
 """
-from l96_ebm.deterministic.integrator import L96_EBM_Integrator, L96_EBM_TrajectoryObserver
+from l96_ebm.deterministic.integrator import (
+    L96_EBM_Integrator,
+    L96_EBM_TrajectoryObserver,
+)
 
 from ic import load_ic
 from exit_times import tipped, check_exit_time
@@ -16,7 +19,7 @@ if __name__ == "__main__":
     # Load Run
     input_number = int(sys.argv[1]) - 1
     print("Opening Config\n")
-    config = json.load(Path("cfg/transient_lifetime_290523.json").open())
+    config = json.load(Path("cfg/transient_lifetime_160623.json").open())
     print("Opened Config")
     dt = config["dt"]
     integration_time = config["integration_time"]
@@ -25,7 +28,9 @@ if __name__ == "__main__":
     file_name = config["results_file"]
     S, disapearing_attractor, ic_number = setup
 
-    print(f"Running setup {input_number}/{len(all_setups)}. S={S:.3f}, ic {ic_number}.\n\n")
+    print(
+        f"Running setup {input_number}/{len(all_setups)}. S={S:.3f}, ic {ic_number}.\n\n"
+    )
 
     # Load IC
     ic = load_ic(disapearing_attractor, ic_number)
