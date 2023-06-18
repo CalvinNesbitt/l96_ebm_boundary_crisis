@@ -52,6 +52,7 @@ if __name__ == "__main__":
         if tipped(ds):
             tipping_time = check_exit_time(ds, disapearing_attractor)
             log_result(file_name, S, disapearing_attractor, tipping_time)
+            sys.exit(0)
 
     # Log nan if we reach integration end
     tipping_time = np.nan
