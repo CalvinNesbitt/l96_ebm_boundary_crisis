@@ -1,4 +1,4 @@
-#PBS -l walltime=00:30:00
+#PBS -l walltime=06:00:00
 #PBS -l select=1:ncpus=8:mem=96gb
 #PBS -N Generate_Transients
 #PBS -J 1-50000
