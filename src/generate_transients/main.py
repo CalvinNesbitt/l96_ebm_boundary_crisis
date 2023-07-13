@@ -39,14 +39,13 @@ if __name__ == "__main__":
     print(f"Starting integration with ic={ic[-1]:.3f}, S={S}.\n\n")
 
     block_length = 1000
-    number_of_observations = int(integration_time / dt)
-    number_of_blocks = int(number_of_observations / block_length)
+    number_of_blocks = int(integration_time / block_length)
 
     runner = L96_EBM_Integrator(x_ic=ic[:-1], T_ic=ic[-1:], S=S)
     looker = L96_EBM_TrajectoryObserver(runner)
 
     for i in range(number_of_blocks):
-        looker.make_observations(block_length, dt, timer=False)
+        looker.make_observations(int(block_length / dt), dt, timer=False)
         ds = looker.observations
 
         # Check if tipped/tipping time

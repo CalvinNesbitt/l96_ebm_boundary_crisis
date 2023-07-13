@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
     config = {
         "integration_time": 1.0e5,
-        "dt": 0.1,
+        "dt": 0.25,
         "all_setups": all_setups,
         "results_file": "/rds/general/user/cfn18/home/Thesis-Computing/Determinisitc/l96_ebm_boundary_crisis/data/transient_liftime_130723.csv",
     }
