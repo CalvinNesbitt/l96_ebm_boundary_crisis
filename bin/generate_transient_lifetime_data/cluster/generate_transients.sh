@@ -1,7 +1,7 @@
 #PBS -l walltime=00:30:00
 #PBS -l select=1:ncpus=8:mem=96gb
 #PBS -N Generate_Transients
-#PBS -J 1-10000
+#PBS -J 1-50000
 
 module load anaconda3/personal
 source activate l96_ebm_det
