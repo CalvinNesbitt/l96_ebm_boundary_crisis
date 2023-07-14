@@ -53,6 +53,16 @@ def lifetime_scaling_law(S, critical_exponent, tipping_point, y_intercept):
     return log_mean_lifetime
 
 
+def inverse_lifetime_scaling_law(
+    mean_lifetime, critical_exponent, tipping_point, y_intercept
+):
+    "Computes log of mean lifetime as a function of S"
+    distance_from_tipping_point = np.exp(
+        (np.log(y_intercept) - np.log(mean_lifetime)) / critical_exponent
+    )
+    return distance_from_tipping_point
+
+
 def fit_from_data(
     S_values,
     mean_lifetimes,
@@ -220,7 +230,7 @@ class TransientLifetimeResult:
         return fig, ax
 
     def estimate_S_from_tau(self, tau):
-        distance_from_S_c = np.exp(-np.log(tau) / self.critical_exponent)
+        distance_from_S_c = inverse_lifetime_scaling_law(tau, *self.params)
         if self.dissapearing_attractor == "sb":
             S = self.tipping_point + distance_from_S_c
         if self.dissapearing_attractor == "w":
