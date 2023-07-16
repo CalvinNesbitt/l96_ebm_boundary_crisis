@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 import pandas as pd
+from functools import lru_cache
 
 
 def exponential_pdf(x, decay_rate):
@@ -33,7 +34,7 @@ def data_vs_exponential_pdf_plot(data_points, fax=None, **kwargs):
     )
 
     # Bin data to get empirical pdf
-    n_bins = int(len(data_points) / 50)
+    n_bins = int(len(data_points) / 100)
     ax.hist(
         data_points, bins=n_bins, density=True, label="Empirical Distribution", **kwargs
     )
@@ -109,7 +110,7 @@ def plot_of_fit(S_values, mean_lifetimes, log_lifetime_function, params, cov, fa
     ax.scatter(
         np.log(np.abs(S_values - S_critical)),
         np.log(mean_lifetimes),
-        label="Obsercations",
+        label="Observations",
     )
     ax.set_xlabel("$\log(|S - S_c|)$")
     ax.set_ylabel("$\log(\\tau)$")
@@ -126,6 +127,9 @@ class TransientLifetimeResult:
         df = df[["S", "dissapearing_attractor", "tipping_time"]]
         self.df = df[df.dissapearing_attractor == dissapearing_attractor]
         self.df.dropna(inplace=True)
+
+        # Make sure we have at least 100 samples for a given S
+        self.df = self.df.groupby("S").filter(lambda x: len(x) > 100)
 
         # Compute derived values
         self.dissapearing_attractor = dissapearing_attractor
@@ -160,6 +164,7 @@ class TransientLifetimeResult:
         df.S = nearest_S
         return df
 
+    @lru_cache(maxsize=50)
     def tipping_time_histogram(self, S, **kwargs):
         fig, ax = data_vs_exponential_pdf_plot(self.tipping_times(S), **kwargs)
         ax.set_title(f"PDF of tipping times for S={S:.2f}")
@@ -168,9 +173,12 @@ class TransientLifetimeResult:
         ax.grid()
         return fig, ax
 
+    def tipping_time_histogram_list(self, index):
+        self.tipping_time_histogram(self.S_values[index])
+
     def all_tipping_time_histograms(self, **kwargs):
         # Make grid of axes
-        n_rows = 5
+        n_rows = int(np.sqrt(len(self.S_values)))
         # ceiling function
         n_cols = int(np.ceil(len(self.S_values) / n_rows))
 
@@ -236,3 +244,14 @@ class TransientLifetimeResult:
         if self.dissapearing_attractor == "w":
             S = self.tipping_point - distance_from_S_c
         return S
+
+    def plot_number_of_samples(self, fax=None):
+        if fax is None:
+            fig, ax = init_2d_fax()
+        else:
+            fig, ax = fax
+        ax.scatter(self.S_values, self.df.groupby("S").count().tipping_time)
+        ax.set_xlabel("$S$")
+        ax.set_ylabel("Number of samples")
+        ax.set_title("Number of samples vs S")
+        return fig, ax

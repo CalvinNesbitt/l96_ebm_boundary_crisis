@@ -33,7 +33,7 @@ if __name__ == "__main__":
     )
 
     # Load IC
-    ic = load_ic(disapearing_attractor, ic_number)
+    ic = load_ic(disapearing_attractor)
 
     # Run Integration
     print(f"Starting integration with ic={ic[-1]:.3f}, S={S}.\n\n")
