@@ -14,13 +14,14 @@ import sys
 import json
 import numpy as np
 from pathlib import Path
+from loguru import logger
 
 if __name__ == "__main__":
     # Load Run
     input_number = int(sys.argv[1]) - 1
-    print("Opening Config\n")
-    config = json.load(Path("cfg/transient_lifetime_more_S_samples.json").open())
-    print("Opened Config")
+    logger.info("Opening Config\n")
+    config = json.load(Path("cfg/transient_lifetime_better_ic.json").open())
+    logger.info("Opened Config")
     dt = config["dt"]
     integration_time = config["integration_time"]
     all_setups = config["all_setups"]
@@ -28,15 +29,15 @@ if __name__ == "__main__":
     file_name = config["results_file"]
     S, disapearing_attractor, ic_number = setup
 
-    print(
-        f"Running setup {input_number}/{len(all_setups)}. S={S:.3f}, ic {ic_number}.\n\n"
+    logger.info(
+        f"Running setup {input_number + 1}/{len(all_setups)}. S={S:.3f}, ic {ic_number}.\n\n"
     )
 
     # Load IC
     ic = load_ic(disapearing_attractor)
 
     # Run Integration
-    print(f"Starting integration with ic={ic[-1]:.3f}, S={S}.\n\n")
+    logger.info(f"Starting integration with ic={ic[-1]:.3f}, S={S}.\n\n")
 
     block_length = 1000
     number_of_blocks = int(integration_time / block_length)

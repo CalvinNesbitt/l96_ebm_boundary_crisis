@@ -4,11 +4,10 @@ Code for generating ic for our transients.
 # Custom Code
 from l96_ebm.deterministic.integrator import L96_EBM_Integrator
 
-from i_o import transient_ic_dir
 
 # Standard Packages
-import numpy as np
 import numpy.random as rm
+from loguru import logger
 
 
 # Functions for generating ic files
@@ -20,6 +19,7 @@ def generate_random_ic(S, attractor):
     elif attractor == "w":
         T_ic = 300 + rm.uniform(-10, 10)
 
+    logger.info(f"Generating ic for S={S:.2f}, T_ic={T_ic:.2f}")
     runner = L96_EBM_Integrator(T_ic=T_ic, S=S)
     runner.run(500)
     return runner.state
