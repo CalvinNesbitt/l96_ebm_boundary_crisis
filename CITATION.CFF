@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+title: Python Code for the Investigation of the boundary crisis in the L96-EBM.
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Calvin
+    family-names: Nesbitt
+    affiliation: University of Reading
+repository-code: "https://github.com/CalvinNesbitt/l96_ebm_boundary_crisis"
+abstract: Python Code for the Investigation of the boundary crisis in the L96-EBM.
+license: MIT
+commit: 0e84c50751731d06909ed1d0367d9644459a8924
+version: 0.0.1

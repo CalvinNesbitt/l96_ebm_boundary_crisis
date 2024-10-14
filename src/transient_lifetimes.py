@@ -8,7 +8,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 import pandas as pd
-from functools import lru_cache
 
 
 def exponential_pdf(x, decay_rate):
@@ -35,9 +34,7 @@ def data_vs_exponential_pdf_plot(data_points, fax=None, **kwargs):
 
     # Bin data to get empirical pdf
     n_bins = int(len(data_points) / 100)
-    ax.hist(
-        data_points, bins=n_bins, density=True, label="Empirical Distribution", **kwargs
-    )
+    ax.hist(data_points, bins=n_bins, density=True, **kwargs)
     counts, bin_edges = np.histogram(data_points, bins=n_bins, density=True)
     bin_centres = (bin_edges[:-1] + bin_edges[1:]) / 2
     ax.scatter(bin_centres, counts, label="Empirical Distribution", c="r", marker="o")
@@ -151,7 +148,7 @@ class TransientLifetimeResult:
         ax.plot(self.S_values, self.mean_lifetimes, marker="o")
         ax.set_xlabel("$S$")
         ax.set_ylabel("$\log(\\tau)$")
-        ax.set_title("Mean tipping time vs S")
+        ax.set_title("Mean Transient Lifetimes")
         ax.set_yscale("log")
         return fig, ax
 
@@ -164,17 +161,20 @@ class TransientLifetimeResult:
         df.S = nearest_S
         return df
 
-    @lru_cache(maxsize=50)
-    def tipping_time_histogram(self, S, **kwargs):
-        fig, ax = data_vs_exponential_pdf_plot(self.tipping_times(S), **kwargs)
-        ax.set_title(f"PDF of tipping times for S={S:.2f}")
-        ax.set_xlabel("Tipping time")
-        ax.set_ylabel("Probability")
+    def tipping_time_histogram(self, S, fax=None, **kwargs):
+        if fax is None:
+            fax = init_2d_fax()
+        fig, ax = fax
+        fig, ax = data_vs_exponential_pdf_plot(self.tipping_times(S), fax=fax, **kwargs)
+        ax.set_title(f"Transient Lifetimes PDF, S={S:.2f}")
+        ax.set_xlabel("Transient Lifetime")
+        ax.set_ylabel("$\\rho$")
         ax.grid()
         return fig, ax
 
-    def tipping_time_histogram_list(self, index):
-        self.tipping_time_histogram(self.S_values[index])
+    def tipping_time_histogram_list(self, index, fax=None):
+        fig, ax = self.tipping_time_histogram(self.S_values[index], fax=fax)
+        return fig, ax
 
     def all_tipping_time_histograms(self, **kwargs):
         # Make grid of axes
@@ -182,7 +182,7 @@ class TransientLifetimeResult:
         # ceiling function
         n_cols = int(np.ceil(len(self.S_values) / n_rows))
 
-        fig, axs = plt.subplots(n_rows, n_cols, figsize=(15, 10))
+        fig, axs = plt.subplots(n_rows, n_cols, figsize=(20, 15))
         axs = axs.flatten()
         for _, S in enumerate(self.S_values):
             self.tipping_time_histogram(S, fax=(fig, axs[_]), **kwargs)
@@ -232,9 +232,14 @@ class TransientLifetimeResult:
             fax=fax,
         )
 
+        if self.dissapearing_attractor == "sb":
+            sc_label = "S_{SB \\to W}"
+        if self.dissapearing_attractor == "w":
+            sc_label = "S_{W \\to SB}"
         ax.set_title(
-            f"$S_c = {self.tipping_point:.2f}\pm{self.tipping_point_err:.2f}$, $\\gamma = {self.critical_exponent:.2f}\pm{self.critical_exponent_err:.2f}$"
+            f"${sc_label} = {self.tipping_point:.2f}\pm{self.tipping_point_err:.2f}$, $\\gamma = {self.critical_exponent:.2f}\pm{self.critical_exponent_err:.2f}$"
         )
+        ax.set_xlabel(f"$\log(|S - {sc_label}|)$")
         return fig, ax
 
     def estimate_S_from_tau(self, tau):
